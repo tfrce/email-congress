@@ -1,0 +1,22 @@
+{
+  "name": "skipchimp",
+  "version": "0.0.0",
+  "description": "skipchimp =========",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/thomasdavis/skipchimp.git"
+  },
+  "author": "",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/thomasdavis/skipchimp/issues"
+  },
+  "dependencies": {
+    "express": "~3.4.0",
+    "mongodb": "~1.3.19"
+  }
+}
