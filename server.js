@@ -73,7 +73,7 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
         var targetTime = new Date(Date.now());
         var timeZoneFromDB = -5.00; //time zone value from database
         //get the timezone offset from local time in minutes
-        var tzDifference = timeZoneFromDB * 60 + targetTime.getTimezoneOffset();
+        var tzDifference = timeZoneFromDB * 60;
         //convert the offset to milliseconds, add to targetTime, and make a new Date
         var offsetTime = new Date(targetTime.getTime() + tzDifference * 60 * 1000);
         res.jsonp({thedaywefightback: offsetTime.getDate() === 11 ? true: false, datetime: offsetTime, servertime: new Date(Date.now())}); // Do something with your data!
