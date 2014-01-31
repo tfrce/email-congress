@@ -57,7 +57,7 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
 
 
     server.get('/count', function(req, res, next) {
-      res.setHeader("Expires", new Date(Date.now() + 5 * 60 * 1000).toUTCString());
+      res.setHeader("Expires", new Date(Date.now() + 1 * 60 * 1000).toUTCString());
       collection.count(function(err, count) {
         res.jsonp({count: count});
       })
@@ -90,14 +90,6 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
 
     server.listen(port, function() {
         console.log('%s listening at %s', server.name, server.url);
-        setInterval(function () {
-          var email = {
-            from: 'thomasalwyndavis@gmail.com',
-            message: 'seeing how many records I can store with 2gb, I wonder how many. The message is going to be quite long about I guess the computer keeps typing and we can see how many people follow and how many dont and see how many australia and man the biggest primateof them all table chair cup and shift the guy from the plane'
-          }
-          collection.insert(email, function(err, docs) {
-          });
-        }, 100);
     });
 
 })
