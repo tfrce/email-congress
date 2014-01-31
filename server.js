@@ -76,7 +76,7 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
         var tzDifference = timeZoneFromDB * 60;
         //convert the offset to milliseconds, add to targetTime, and make a new Date
         var offsetTime = new Date(targetTime.getTime() + tzDifference * 60 * 1000);
-        res.jsonp({thedaywefightback: offsetTime.getDate() === 11 ? true: false, datetime: offsetTime, servertime: new Date(Date.now())}); // Do something with your data!
+        res.jsonp({thedaywefightback: offsetTime.getDate() === 11 ? true: false, est: offsetTime, utc: new Date(Date.now())}); // Do something with your data!
     });
     server.get('/email', function(req, res, next) {
         var email = {
