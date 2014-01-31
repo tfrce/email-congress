@@ -66,13 +66,18 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
 
     });
     server.get('/', function(req, res, next) {
-
-        //collection.insert(mgg, function(err, docs) {console.log('Saved Email')});
-
-        res.jsonp({message: 'Welcome to email congress'}); // Do something with your data!
-
+        res.jsonp({message: 'Welcome to email congress, also doubles up as a time server'}); // Do something with your data!
     });
-
+    server.get('/time', function(req, res, next) {
+        res.setHeader("Expires", new Date(Date.now() + 1 * 60 * 1000).toUTCString());
+        var targetTime = new Date(Date.now());
+        var timeZoneFromDB = 5.00; //time zone value from database
+        //get the timezone offset from local time in minutes
+        var tzDifference = timeZoneFromDB * 60 + targetTime.getTimezoneOffset();
+        //convert the offset to milliseconds, add to targetTime, and make a new Date
+        var offsetTime = new Date(targetTime.getTime() + tzDifference * 60 * 1000);
+        res.jsonp({thedaywefightback: offsetTime.getDate() === 11 ? true: false, datetime: offsetTime}); // Do something with your data!
+    });
     server.get('/email', function(req, res, next) {
         var email = {
           from: req.query.from,
