@@ -71,7 +71,7 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
     server.get('/time', function(req, res, next) {
         res.setHeader("Expires", new Date(Date.now() + 1 * 60 * 1000).toUTCString());
         var targetTime = new Date(Date.now());
-        var timeZoneFromDB = 5.00; //time zone value from database
+        var timeZoneFromDB = -5.00; //time zone value from database
         //get the timezone offset from local time in minutes
         var tzDifference = timeZoneFromDB * 60 + targetTime.getTimezoneOffset();
         //convert the offset to milliseconds, add to targetTime, and make a new Date
