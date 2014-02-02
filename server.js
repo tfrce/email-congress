@@ -50,7 +50,7 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
     var server = express();
     server.use(express.bodyParser());
     server.use(allowCrossDomain);
-
+    server.use('/cors', express.static(__dirname + '/cors'));
     server.options("*", function(req, res, next) {
         res.send({});
     });
@@ -75,7 +75,7 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
         var offsetTime = new Date(targetTime.getTime() + tzDifference * 60 * 1000);
         res.jsonp({thedaywefightback: offsetTime.getDate() === 11 ? true: false, est: offsetTime, utc: new Date(Date.now())}); // Do something with your data!
     });
-    server.get('/email', function(req, res, next) {
+    server.post('/email', function(req, res, next) {
         var email = {
           from: req.query.from,
           name: req.query.name,
