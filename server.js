@@ -50,7 +50,7 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
     var server = express();
     server.use(express.bodyParser());
     server.use(allowCrossDomain);
-    server.use('/cors', express.static(__dirname + '/cors'));
+    server.use('/xdm', express.static(__dirname + '/xdm'));
     server.options("*", function(req, res, next) {
         res.send({});
     });
