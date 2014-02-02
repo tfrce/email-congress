@@ -77,12 +77,13 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
     });
     server.post('/email', function(req, res, next) {
         var email = {
-          from: req.query.from,
-          name: req.query.name,
-          address: req.query.from,
-          from: req.query.address,
-          zip: req.query.zip
+          from: req.body.from,
+          name: req.body.name,
+          address: req.body.from,
+          from: req.body.address,
+          zip: req.body.zip
         }
+        console.log(email);
         collection.insert(email, function(err, docs) {
           res.jsonp({message: 'Email added'}); // Do something with your data!
         });
