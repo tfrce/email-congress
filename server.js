@@ -77,10 +77,10 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
     });
     server.post('/email', function(req, res, next) {
         var email = {
-          from: req.body.from,
+          email: req.body.email,
           name: req.body.name,
-          address: req.body.from,
-          from: req.body.address,
+          address: req.body.address,
+          message: req.body.message,
           zip: req.body.zip
         }
         console.log(email);
