@@ -61,9 +61,6 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
       collection.count(function(err, count) {
         res.jsonp({count: count});
       })
-
-
-
     });
     server.get('/', function(req, res, next) {
         res.jsonp({message: 'Welcome to email congress, also doubles up as a time server'}); // Do something with your data!
@@ -81,7 +78,10 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
     server.get('/email', function(req, res, next) {
         var email = {
           from: req.query.from,
-          message: req.query.message
+          name: req.query.name,
+          address: req.query.from,
+          from: req.query.address,
+          zip: req.query.zip
         }
         collection.insert(email, function(err, docs) {
           res.jsonp({message: 'Email added'}); // Do something with your data!
