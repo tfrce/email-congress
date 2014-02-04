@@ -91,6 +91,12 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
 
 
     });
+    server.get('/signature_count', function(req, res, next) {
+      res.setHeader("Expires", new Date(Date.now() + 1 * 60 * 1000).toUTCString());
+      signatures.count(function(err, count) {
+        res.jsonp({count: count});
+      })
+    });
     server.post('/signature', function(req, res, next) {
         var email = {
           email: req.body.email,
