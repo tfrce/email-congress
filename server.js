@@ -47,6 +47,7 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
     if (err) throw err;
 
     var collection = db.collection('emails');
+    var signatures = db.collection('signatures');
     var server = express();
     server.use(express.bodyParser());
     server.use(allowCrossDomain);
@@ -85,6 +86,18 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
         }
         console.log(email);
         collection.insert(email, function(err, docs) {
+          res.jsonp({message: 'Email added'}); // Do something with your data!
+        });
+
+
+    });
+    server.post('/signature', function(req, res, next) {
+        var email = {
+          email: req.body.email,
+          name: req.body.name,
+          country: req.body.country
+        }
+        signatures.insert(email, function(err, docs) {
           res.jsonp({message: 'Email added'}); // Do something with your data!
         });
 
