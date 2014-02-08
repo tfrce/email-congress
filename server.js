@@ -66,6 +66,8 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
     server.get('/', function(req, res, next) {
         res.jsonp({message: 'Welcome to email congress, also doubles up as a time server'}); // Do something with your data!
     });
+
+
     server.get('/time', function(req, res, next) {
         res.setHeader("Expires", new Date(Date.now() + 1 * 60 * 1000).toUTCString());
         var targetTime = new Date(Date.now());
@@ -74,13 +76,18 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
         var tzDifference = timeZoneFromDB * 60;
         //convert the offset to milliseconds, add to targetTime, and make a new Date
         var offsetTime = new Date(targetTime.getTime() + tzDifference * 60 * 1000);
-        res.jsonp({thedaywefightback: offsetTime.getDate() === 11 ? true: false, est: offsetTime, utc: new Date(Date.now())}); // Do something with your data!
+        var days = 11 - offsetTime.getDate();
+        res.jsonp({days: days, thedaywefightback: offsetTime.getDate() === 11 ? true: false, est: offsetTime, utc: new Date(Date.now())}); // Do something with your data!
     });
+
+
+
     server.post('/email', function(req, res, next) {
         var email = {
           email: req.body.email,
           name: req.body.name,
           address: req.body.address,
+          org: req.body.org,
           message: req.body.message,
           zip: req.body.zip
         }
@@ -101,6 +108,7 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
         var email = {
           email: req.body.email,
           name: req.body.name,
+	  org: req.body.org,
           country: req.body.country
         }
         signatures.insert(email, function(err, docs) {
