@@ -6,7 +6,16 @@ var cors = require('cors');
 var express = require('express');
 var MongoClient = require('mongodb').MongoClient;
 
+var email = require('./email.js');
+
 var PORT = process.env.PORT || 8080;
+
+var TEMPLATES = {
+  emails: 'domestic',
+  signatures: 'international'
+};
+
+var collections = {};
 
 // XXX: Add to environment variables?
 var whitelist = [
@@ -32,8 +41,6 @@ var corsOptions = {
   }
 };
 
-var emails, signatures;
-
 var app = express();
 
 app.use(express.urlencoded());
@@ -48,7 +55,7 @@ app.options("*", cors(corsOptions));
 app.get('/count', function (req, res) {
   res.setHeader("Expires", new Date(Date.now() + 1 * 60 * 1000).toUTCString());
 
-  emails.count(function (err, count) {
+  collections.emails.count(function (err, count) {
     res.jsonp({ count: count });
   });
 });
@@ -80,8 +87,25 @@ app.get('/time', function (req, res) {
   });
 });
 
+function addEmail(collection, data, cb) {
+  collections[collection].insert(data, function (err) {
+    if (err) {
+      return cb(err);
+    }
+
+    email.send(TEMPLATES[collection], data.email, data, function (err) {
+      if (err) {
+        return cb(err);
+      }
+
+      cb();
+    });
+  });
+}
+
+// Domestic
 app.post('/email', function (req, res) {
-  var email = {
+  var data = {
     email: req.body.email,
     name: req.body.name,
     address: req.body.address,
@@ -90,9 +114,9 @@ app.post('/email', function (req, res) {
     zip: req.body.zip
   };
 
-  emails.insert(email, function (err) {
+  addEmail('emails', data, function (err) {
     if (err) {
-      return res.jsonp({error: err});
+      res.jsonp({error: err});
     }
 
     res.jsonp({message: 'Email added'});
@@ -102,7 +126,7 @@ app.post('/email', function (req, res) {
 app.get('/signature_count', function (req, res) {
   res.setHeader("Expires", new Date(Date.now() + 1 * 60 * 1000).toUTCString());
 
-  signatures.count(function (err, count) {
+  collections.signatures.count(function (err, count) {
     if (err) {
       return res.jsonp({error: err});
     }
@@ -111,15 +135,16 @@ app.get('/signature_count', function (req, res) {
   });
 });
 
+// International
 app.post('/signature', function (req, res) {
-  var email = {
+  var data = {
     email: req.body.email,
     name: req.body.name,
     org: req.body.org,
     country: req.body.country
   };
 
-  signatures.insert(email, function (err) {
+  addEmail('signatures', data, function (err) {
     if (err) {
       return res.jsonp({error: err});
     }
@@ -133,8 +158,8 @@ MongoClient.connect(process.env.MONGOHQ_URL, function (err, db) {
     throw err;
   }
 
-  emails = db.collection('emails');
-  signatures = db.collection('signatures');
+  collections.emails = db.collection('emails');
+  collections.signatures = db.collection('signatures');
 
   app.listen(PORT, function () {
     console.log('listening at %d', PORT);
