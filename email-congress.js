@@ -67,7 +67,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/time', function (req, res) {
-  res.setHeader("Expires", new Date(Date.now() + 1 * 60 * 1000).toUTCString());
+  res.setHeader("Expires", new Date(Date.now() + 1 * 180 * 1000).toUTCString());
 
   var targetTime = new Date(Date.now());
   var timeZoneFromDB = -5.00; //time zone value from database
