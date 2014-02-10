@@ -93,13 +93,13 @@ function addEmail(collection, data, cb) {
       return cb(err);
     }
 
-    email.send(TEMPLATES[collection], data.email, data, function (err) {
-      if (err) {
-        return cb(err);
-      }
+    //email.send(TEMPLATES[collection], data.email, data, function (err) {
+     // if (err) {
+     //   return cb(err);
+    //  }
 
-      cb();
-    });
+    //  cb();
+    //});
   });
 }
 
