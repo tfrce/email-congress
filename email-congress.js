@@ -121,7 +121,7 @@ app.post('/email', function (req, res) {
 
   });
   res.jsonp({message: 'Email added'});
-});
+  });
 
 app.get('/signature_count', function (req, res) {
   res.setHeader("Expires", new Date(Date.now() + 1 * 60 * 1000).toUTCString());
@@ -149,8 +149,9 @@ app.post('/signature', function (req, res) {
       return res.jsonp({error: err});
     }
 
-    res.jsonp({message: 'Email added'});
   });
+  res.jsonp({message: 'Email added'});
+
 });
 
 MongoClient.connect(process.env.MONGOHQ_URL, function (err, db) {
