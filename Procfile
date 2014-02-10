@@ -1,1 +1,1 @@
-web: node server.js
+web: node email-congress.js
