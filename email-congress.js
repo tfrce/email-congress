@@ -12,6 +12,7 @@ var Mustache = require('mustache');
 
 var PORT = process.env.PORT || 8080;
 
+// XXX: Add to environment variables?
 var whitelist = [
   'http://dev.stopwatching.us',
   'http://rally.stopwatching.us',
@@ -62,23 +63,6 @@ app.get('/count', function (req, res) {
 app.get('/', function (req, res) {
   res.jsonp({
     message: 'Welcome to email congress, also doubles up as a time server'
-  });
-
-  var details = {
-    user: 'asdas'
-  }
-
-  console.log(domesticTemplate);
-
-  var data = {
-    from: 'Excited User <me@samples.mailgun.org>',
-    to: 'thomasalwyndavis@gmail.com',
-    subject: 'Hello',
-    text: Mustache.render(domesticTemplate, details)
-  };
-
-  mailgun.messages.send(data, function (error, response, body) {
-    console.log(body);
   });
 });
 
