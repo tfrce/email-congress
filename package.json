@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "",
   "main": "email-congress.js",
+  "engines": {
+    "node": "0.10.x"
+  },
   "scripts": {
     "test": "foreman run mocha -R spec"
   },
