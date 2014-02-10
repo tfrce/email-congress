@@ -7,7 +7,13 @@ Will clean up and make available
 var MongoClient = require('mongodb').MongoClient,
     format = require('util').format;
 
-
+var api_key = 'key-4htd1zznkwbyulznkclyy25g9t-rpkl8';
+var domain = 'stopwatchingus.mailgun.org';
+var mailgun = require('mailgun-js')(api_key, domain);
+var fs = require('fs');
+var Mustache = require('mustache');
+var domesticTemplate = fs.readFileSync('templates/domestic.html', 'utf8');
+var internationalTemplate = fs.readFileSync('templates/international.html', 'utf8');
 
 var express = require('express');
 var port = process.env.PORT || 8080;
@@ -65,6 +71,21 @@ MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
     });
     server.get('/', function(req, res, next) {
         res.jsonp({message: 'Welcome to email congress, also doubles up as a time server'}); // Do something with your data!
+        var details = {
+            user: 'asdas'
+        }
+        console.log(domesticTemplate);
+        var data = {
+          from: 'Excited User <me@samples.mailgun.org>',
+          to: 'thomasalwyndavis@gmail.com',
+          subject: 'Hello',
+          text: Mustache.render(domesticTemplate, details)
+        };
+
+        mailgun.messages.send(data, function (error, response, body) {
+          console.log(body);
+        });
+
     });
 
 
