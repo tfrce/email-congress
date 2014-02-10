@@ -4,11 +4,7 @@
 
 var cors = require('cors');
 var express = require('express');
-var fs = require('fs');
-var mailgun = require('mailgun-js')(process.env.MAILGUN_API_KEY,
-                                    process.env.MAILGUN_DOMAIN);
 var MongoClient = require('mongodb').MongoClient;
-var Mustache = require('mustache');
 
 var PORT = process.env.PORT || 8080;
 
@@ -37,9 +33,6 @@ var corsOptions = {
 };
 
 var emails, signatures;
-
-var domesticTemplate = fs.readFileSync('templates/domestic.html', 'utf8');
-var internationalTemplate = fs.readFileSync('templates/international.html', 'utf8');
 
 var app = express();
 
