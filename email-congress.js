@@ -119,8 +119,8 @@ app.post('/email', function (req, res) {
       res.jsonp({error: err});
     }
 
-    res.jsonp({message: 'Email added'});
   });
+  res.jsonp({message: 'Email added'});
 });
 
 app.get('/signature_count', function (req, res) {
