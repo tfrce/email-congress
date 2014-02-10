@@ -4,7 +4,11 @@
 
 var cors = require('cors');
 var express = require('express');
+var fs = require('fs');
+var mailgun = require('mailgun-js')(process.env.MAILGUN_API_KEY,
+                                    process.env.MAILGUN_DOMAIN);
 var MongoClient = require('mongodb').MongoClient;
+var Mustache = require('mustache');
 
 var PORT = process.env.PORT || 8080;
 
@@ -33,11 +37,6 @@ var corsOptions = {
 
 var emails, signatures;
 
-var api_key = 'key-4htd1zznkwbyulznkclyy25g9t-rpkl8';
-var domain = 'stopwatchingus.mailgun.org';
-var mailgun = require('mailgun-js')(api_key, domain);
-var fs = require('fs');
-var Mustache = require('mustache');
 var domesticTemplate = fs.readFileSync('templates/domestic.html', 'utf8');
 var internationalTemplate = fs.readFileSync('templates/international.html', 'utf8');
 
