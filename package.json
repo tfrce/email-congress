@@ -25,6 +25,7 @@
     "mailgun-js": "~0.3.0",
     "mustache": "~0.8.1",
     "mocha": "~1.17.1",
-    "chai": "~1.9.0"
+    "chai": "~1.9.0",
+    "superagent": "~0.16.0"
   }
 }

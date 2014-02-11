@@ -5,6 +5,7 @@
 var cors = require('cors');
 var express = require('express');
 var MongoClient = require('mongodb').MongoClient;
+var request = require('superagent');
 
 var email = require('./email.js');
 
@@ -154,6 +155,18 @@ app.post('/signature', function (req, res) {
 
   res.jsonp({message: 'Email added'});
 });
+
+app.get('/call_count', function (req, res) {
+  res.setHeader("Expires", new Date(Date.now() + 1 * 60 * 1000).toUTCString());
+
+  request
+    .get('https://api.twilio.com/2010-04-01/Accounts/' + process.env.TWILIO_KEY + '/Usage/Records.json')
+    .auth(process.env.TWILIO_KEY, process.env.TWILIO_TOKEN)
+    .end(function(results){
+      res.jsonp({count: results.body.usage_records[1].count - 9750});
+    });
+});
+
 
 MongoClient.connect(process.env.MONGOHQ_URL, function (err, db) {
   if (err) {
