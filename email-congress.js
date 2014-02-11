@@ -46,6 +46,7 @@ var app = express();
 app.use(express.urlencoded());
 app.use(express.json());
 
+app.use('/fonts', express.static(__dirname + '/fonts'));
 app.use('/xdm', express.static(__dirname + '/xdm'));
 
 app.use(cors(corsOptions));
