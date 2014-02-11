@@ -12,7 +12,7 @@ exports.send = function (template, address, details, cb) {
   var data = {
     from: 'The Day We Fight Back <contact@thedaywefightback.org>',
     to: address,
-    subject: 'XXX decide on a subject',
+    subject: 'Thank you for fighting back!',
     html: Mustache.render(templates[template], details)
   };
 

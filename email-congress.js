@@ -47,6 +47,7 @@ var app = express();
 app.use(express.urlencoded());
 app.use(express.json());
 
+app.use('/fonts', express.static(__dirname + '/fonts'));
 app.use('/xdm', express.static(__dirname + '/xdm'));
 
 app.use(cors(corsOptions));
@@ -94,15 +95,13 @@ function addEmail(collection, data, cb) {
       return cb(err);
     }
 
-    cb();
+    email.send(TEMPLATES[collection], data.email, data, function (err) {
+      if (err) {
+        return cb(err);
+      }
 
-    //email.send(TEMPLATES[collection], data.email, data, function (err) {
-    //  if (err) {
-    //   return cb(err);
-    //  }
-
-    //  cb();
-    //});
+      cb();
+    });
   });
 }
 
@@ -118,12 +117,12 @@ app.post('/email', function (req, res) {
   };
 
   addEmail('emails', data, function (err) {
-    if (err) {
-      //return res.jsonp({error: err});
-    }
-  });
+    //if (err) {
+    //  return res.jsonp({error: err});
+    //}
 
-  res.jsonp({message: 'Email added'});
+    res.jsonp({message: 'Email added'});
+  });
 });
 
 app.get('/signature_count', function (req, res) {
@@ -148,12 +147,12 @@ app.post('/signature', function (req, res) {
   };
 
   addEmail('signatures', data, function (err) {
-    if (err) {
-      //return res.jsonp({error: err});
-    }
-  });
+    //if (err) {
+    //  return res.jsonp({error: err});
+    //}
 
-  res.jsonp({message: 'Email added'});
+    res.jsonp({message: 'Email added'});
+  });
 });
 
 app.get('/call_count', function (req, res) {
