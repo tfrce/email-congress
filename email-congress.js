@@ -81,7 +81,7 @@ app.get('/time', function (req, res) {
 
   res.jsonp({
     days: days,
-    thedaywefightback: offsetTime.getDate() === 11 ? true: false,
+    thedaywefightback: true,
     est: offsetTime,
     utc: new Date(Date.now())
   });
