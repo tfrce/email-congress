@@ -93,15 +93,13 @@ function addEmail(collection, data, cb) {
       return cb(err);
     }
 
-    cb();
+    email.send(TEMPLATES[collection], data.email, data, function (err) {
+      if (err) {
+        return cb(err);
+      }
 
-    //email.send(TEMPLATES[collection], data.email, data, function (err) {
-    //  if (err) {
-    //   return cb(err);
-    //  }
-
-    //  cb();
-    //});
+      cb();
+    });
   });
 }
 
@@ -117,12 +115,12 @@ app.post('/email', function (req, res) {
   };
 
   addEmail('emails', data, function (err) {
-    if (err) {
-      //return res.jsonp({error: err});
-    }
-  });
+    //if (err) {
+    //  return res.jsonp({error: err});
+    //}
 
-  res.jsonp({message: 'Email added'});
+    res.jsonp({message: 'Email added'});
+  });
 });
 
 app.get('/signature_count', function (req, res) {
@@ -147,12 +145,12 @@ app.post('/signature', function (req, res) {
   };
 
   addEmail('signatures', data, function (err) {
-    if (err) {
-      //return res.jsonp({error: err});
-    }
-  });
+    //if (err) {
+    //  return res.jsonp({error: err});
+    //}
 
-  res.jsonp({message: 'Email added'});
+    res.jsonp({message: 'Email added'});
+  });
 });
 
 MongoClient.connect(process.env.MONGOHQ_URL, function (err, db) {
