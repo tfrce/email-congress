@@ -173,8 +173,9 @@ app.get('/call_count', function (req, res) {
 MongoClient.connect(process.env.MONGOHQ_URL, function (err, db) {
   if (err) {
     throw err;
-  }
-  collection.​resetthenet = db.collection('​resetthenet');
+  };
+  
+  collections.​resetthenet = db.collection('​resetthenet');
   collections.emails = db.collection('emails');
   collections.signatures = db.collection('signatures');
 
