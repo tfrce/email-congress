@@ -175,10 +175,10 @@ MongoClient.connect(process.env.MONGOHQ_URL, function (err, db) {
     throw err;
   };
 
+  collections['resetthenet'] = db.collection('resetthenet');
 
   collections.emails = db.collection('emails');
   collections.signatures = db.collection('signatures');
-  collections.​resetthenet = db.collection('​resetthenet');
   app.listen(PORT, function () {
     console.log('listening at %d', PORT);
   });
