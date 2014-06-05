@@ -18,7 +18,7 @@ var TEMPLATES = {
 
 var collections = {};
 
-// XXX: Add to environment variables?
+
 var whitelist = [
   'http://dev.stopwatching.us',
   'http://rally.stopwatching.us',
@@ -39,6 +39,7 @@ var whitelist = [
 
 var corsOptions = {
   origin: function (origin, cb) {
+    console.log(origin, 'origin');
     cb(null, whitelist.indexOf(origin) !== -1);
   }
 };
