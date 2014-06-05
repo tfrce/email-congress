@@ -33,7 +33,8 @@ var whitelist = [
   'https://thedaywefightback.org/',
   'http://thedaywefightback.org/',
   'http://dznh7un1y2etk.cloudfront.net',
-  'http://tfrce.github.io'
+  'http://tfrce.github.io',
+  'http://localhost'
 ];
 
 var corsOptions = {
@@ -54,20 +55,21 @@ app.use(cors(corsOptions));
 
 app.options("*", cors(corsOptions));
 
+
 app.get('/count', function (req, res) {
   res.setHeader("Expires", new Date(Date.now() + 1 * 60 * 1000).toUTCString());
 
-  collections.emails.count(function (err, count) {
+  collections.resetthenet.count(function (err, count) {
     res.jsonp({ count: count });
   });
 });
 
 app.get('/', function (req, res) {
   res.jsonp({
-    message: 'Welcome to email congress, also doubles up as a time server'
+    message: 'Welcome to an email tool, currently configured for resetthenet'
   });
 });
-
+/*
 app.get('/time', function (req, res) {
   res.setHeader("Expires", new Date(Date.now() + 1 * 180 * 1000).toUTCString());
 
@@ -87,7 +89,7 @@ app.get('/time', function (req, res) {
     est: offsetTime,
     utc: new Date(Date.now())
   });
-});
+});*/
 
 function addEmail(collection, data, cb) {
   collections[collection].insert(data, function (err) {
@@ -95,13 +97,13 @@ function addEmail(collection, data, cb) {
       return cb(err);
     }
 
-    email.send(TEMPLATES[collection], data.email, data, function (err) {
+    /*email.send(TEMPLATES[collection], data.email, data, function (err) {
       if (err) {
         return cb(err);
       }
 
       cb();
-    });
+    });*/
   });
 }
 
@@ -109,14 +111,14 @@ function addEmail(collection, data, cb) {
 app.post('/email', function (req, res) {
   var data = {
     email: req.body.email,
-    name: req.body.name,
-    address: req.body.address,
-    org: req.body.org,
-    message: req.body.message,
-    zip: req.body.zip
+    //name: req.body.name,
+    //address: req.body.address,
+    org: req.body.org
+    //message: req.body.message,
+    //zip: req.body.zip
   };
 
-  addEmail('emails', data, function (err) {
+  addEmail('resetthenet', data, function (err) {
     //if (err) {
     //  return res.jsonp({error: err});
     //}
@@ -124,7 +126,7 @@ app.post('/email', function (req, res) {
     res.jsonp({message: 'Email added'});
   });
 });
-
+/*
 app.get('/signature_count', function (req, res) {
   res.setHeader("Expires", new Date(Date.now() + 1 * 60 * 1000).toUTCString());
 
@@ -165,13 +167,13 @@ app.get('/call_count', function (req, res) {
       res.jsonp({count: results.body.usage_records[1].count - 9750});
     });
 });
-
+*/
 
 MongoClient.connect(process.env.MONGOHQ_URL, function (err, db) {
   if (err) {
     throw err;
   }
-
+  collection.​resetthenet = db.collection('​resetthenet');
   collections.emails = db.collection('emails');
   collections.signatures = db.collection('signatures');
 
