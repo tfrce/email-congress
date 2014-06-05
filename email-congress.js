@@ -97,7 +97,7 @@ function addEmail(collection, data, cb) {
     if (err) {
       return cb(err);
     }
-
+    cb();
     /*email.send(TEMPLATES[collection], data.email, data, function (err) {
       if (err) {
         return cb(err);
@@ -119,6 +119,7 @@ app.post('/email', function (req, res) {
     //zip: req.body.zip
   };
 
+  console.log(req.body, data);
   addEmail('resetthenet', data, function (err) {
     //if (err) {
     //  return res.jsonp({error: err});
