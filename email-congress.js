@@ -34,7 +34,11 @@ var whitelist = [
   'http://thedaywefightback.org/',
   'http://dznh7un1y2etk.cloudfront.net',
   'http://tfrce.github.io',
-  'http://localhost'
+  'http://localhost',
+  'http://www.resetthenet.org',
+  'https://www.resetthenet.org',
+  'http://pack.resetthenet.org',
+  'https://pack.resetthenet.org'
 ];
 
 var corsOptions = {
