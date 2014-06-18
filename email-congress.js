@@ -64,7 +64,7 @@ app.options("*", cors(corsOptions));
 app.get('/count', function (req, res) {
   res.setHeader("Expires", new Date(Date.now() + 1 * 60 * 1000).toUTCString());
 
-  collections.resetthenet.count(function (err, count) {
+  collections.shutthebackdoor.count(function (err, count) {
     res.jsonp({ count: count });
   });
 });
@@ -132,6 +132,25 @@ app.post('/email', function (req, res) {
     res.jsonp({message: 'Email added'});
   });
 });
+app.post('/shutthebackdoor', function (req, res) {
+  var data = {
+    email: req.body.email,
+    //name: req.body.name,
+    //address: req.body.address,
+    org: req.body.org
+    //message: req.body.message,
+    //zip: req.body.zip
+  };
+
+  console.log(req.body, data);
+  addEmail('shutthebackdoor', data, function (err) {
+    //if (err) {
+    //  return res.jsonp({error: err});
+    //}
+
+    res.jsonp({message: 'Email added'});
+  });
+});
 /*
 app.get('/signature_count', function (req, res) {
   res.setHeader("Expires", new Date(Date.now() + 1 * 60 * 1000).toUTCString());
@@ -181,7 +200,7 @@ MongoClient.connect(process.env.MONGOHQ_URL, function (err, db) {
   };
 
   collections['resetthenet'] = db.collection('resetthenet');
-
+  collections['shutthebackdoor'] = db.collection('shutthebackdoor');
   collections.emails = db.collection('emails');
   collections.signatures = db.collection('signatures');
   app.listen(PORT, function () {
